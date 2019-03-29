@@ -158,8 +158,16 @@ padding-right: 10px;
 margin-top: 5px;
 }
 
+#akmin input.button-primary {
+margin: 5px;
+}
+
 #akmin td.sidebar {
 width: 300px;
+}
+
+#akmin .cme-backup-tool a {
+padding-left:0;
 }
 
 #akmin input.regular-text {
@@ -180,4 +188,9 @@ td.cm-has-via-pp {
 background-color: #7f7;
 }
 
-#akmin span.publishpress,#akmin span.publishpress a,#akmin span.publishpress a:visited {color:#655997;font-weight:bold}
+#akmin div.publishpress-headline {line-height:25px}
+#akmin span.publishpress-thanks{margin-left:5px;color:#655997;white-space:nowrap}
+#akmin span.publishpress-thanks,#akmin span.publishpress-thanks a,#akmin span.publishpress-thanks a:visited {color:#655997;font-weight:bold;}
+
+table#akmin td.sidebar li.publishpress-contact{text-align:center}
+table#akmin td.sidebar li.publishpress-contact a{padding:5px 0 5px 0;}

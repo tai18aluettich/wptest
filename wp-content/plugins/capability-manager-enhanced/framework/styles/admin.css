@@ -113,6 +113,10 @@ table#akmin td.sidebar a {
 	border: 0 none;
 	display: block;
 	}
+	
+table#akmin td.sidebar .cme-backup-tool a {
+	padding-left: 0;
+	}
 
 table#akmin td.sidebar ul li {
 	margin: 0;

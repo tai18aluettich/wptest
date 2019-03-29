@@ -28,12 +28,51 @@
 add_action( 'init', 'cme_update_pp_usage' );  // update early so resulting post type cap changes are applied for this request's UI construction
 
 function cme_update_pp_usage() {
-	if ( defined( 'PP_ACTIVE' ) && ( ! empty($_REQUEST['update_filtered_types']) || ! empty($_REQUEST['SaveRole']) ) ) {
+	if ( ! empty($_REQUEST['update_filtered_types']) || ! empty($_REQUEST['update_filtered_taxonomies']) || ! empty($_REQUEST['update_detailed_taxonomies']) || ! empty($_REQUEST['SaveRole']) ) {
 		require_once( dirname(__FILE__).'/pp-handler.php' );
 		return _cme_update_pp_usage();
 	}
 }
 
+// Core WP roles to apply safeguard preventing accidental lockout from dashboard
+function _cme_core_roles() {
+	return apply_filters( 'pp_caps_core_roles', array( 'administrator', 'editor', 'revisor', 'author', 'contributor', 'subscriber' ) );
+}
+
+function _cme_core_caps() {
+	$core_caps = array_fill_keys( array( 'switch_themes', 'edit_themes', 'activate_plugins', 'edit_plugins', 'edit_users', 'edit_files', 'manage_options', 'moderate_comments', 
+	'manage_links', 'upload_files', 'import', 'unfiltered_html', 'read', 'delete_users', 'create_users', 'unfiltered_upload', 'edit_dashboard',
+	'update_plugins', 'delete_plugins', 'install_plugins', 'update_themes', 'install_themes', 
+	'update_core', 'list_users', 'remove_users', 'add_users', 'promote_users', 'edit_theme_options', 'delete_themes', 'export' ), true );
+	
+	ksort( $core_caps );
+	return $core_caps;
+}
+
+function _cme_is_read_removal_blocked( $role_name ) {
+	$role = get_role($role_name);
+	$rcaps = $role->capabilities;
+	
+	$core_caps = array_diff_key( _cme_core_caps(), array_fill_keys( array( 'unfiltered_html', 'unfiltered_upload', 'upload_files', 'edit_files', 'read' ), true ) );
+	
+	if ( empty( $rcaps['dashboard_lockout_ok'] ) ) {
+		$edit_caps = array();
+		foreach ( get_post_types( array( 'public' => true ), 'object' ) as $type_obj ) {
+			$edit_caps = array_merge( $edit_caps, array_values( array_diff_key( (array) $type_obj->cap, array( 'read_private_posts' => true ) ) ) );
+		}
+		
+		$edit_caps = array_fill_keys( $edit_caps, true );
+		unset( $edit_caps['read'] );
+		unset( $edit_caps['upload_files'] );
+		unset( $edit_caps['edit_files'] );
+		
+		if ( $role_has_admin_caps = in_array( $role_name, _cme_core_roles() ) && ( array_intersect_key( $rcaps, array_diff_key( $core_caps, array( 'read' => true ) ) ) || array_intersect_key( $rcaps, $edit_caps ) ) ) {
+			return true;
+		}
+	}
+	
+	return false;
+}
 
 /**
  * Class CapabilityManager.
@@ -57,11 +96,6 @@ class CapabilityManager
 	 * @var array
 	 */
 	var $roles = array();
-	
-	/**
-	 * Roles to monitor for removal of essential capabilities
-	 */
-	var $core_roles = array();
 	
 	/**
 	 * Current role we are managing
@@ -90,8 +124,6 @@ class CapabilityManager
 	{
 		$this->ID = 'capsman';
 		$this->mod_url = plugins_url( '', CME_FILE );
-		
-		$this->core_roles = apply_filters( 'pp_caps_core_roles', array( 'administrator', 'editor', 'revisor', 'author', 'contributor', 'subscriber' ) );
 		
 		$this->moduleLoad();
 		

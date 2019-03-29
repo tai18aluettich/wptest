@@ -44,7 +44,7 @@ class CapsmanHandler
 			
 			$this->saveRoleCapabilities($post['current'], $post['caps'], $post['level']);
 			
-			if ( defined( 'PP_ACTIVE' ) ) {  // log customized role caps for subsequent restoration
+			if ( defined( 'PRESSPERMIT_ACTIVE' ) ) {  // log customized role caps for subsequent restoration
 				// for bbPress < 2.2, need to log customization of roles following bbPress activation
 				$plugins = ( function_exists( 'bbp_get_version' ) && version_compare( bbp_get_version(), '2.2', '<' ) ) ? array( 'bbpress.php' ) : array();	// back compat
 
@@ -86,20 +86,20 @@ class CapsmanHandler
 				$this->cm->message = __('Incorrect capability name.');
 			}
 			
-		} elseif ( ! empty($post['update_filtered_types']) ) {
-			if ( cme_update_pp_usage() ) {
-				ak_admin_notify(__('Capability settings saved.', 'capsman-enhanced'));
-			} else {
-				ak_admin_error(__('Error saving capability settings.', 'capsman-enhanced'));
-			}
+		} elseif ( ! empty($post['update_filtered_types']) || ! empty($post['update_filtered_taxonomies']) || ! empty($post['update_detailed_taxonomies']) ) {
+			//if ( /*  settings saved successfully on plugins_loaded action  */ ) {
+				ak_admin_notify(__('Type / Taxonomy settings saved.', 'capsman-enhanced'));
+			//} else {
+			//	ak_admin_error(__('Error saving capability settings.', 'capsman-enhanced'));
+			//}
 		} else {
 		    // TODO: Implement exceptions. This must be a fatal error.
 		    ak_admin_error(__('Bad form received.', 'capsman-enhanced'));
 		}
 
-		if ( ! empty($newrole) && defined('PP_ACTIVE') ) {
+		if ( ! empty($newrole) && defined('PRESSPERMIT_ACTIVE') ) {
 			if ( ( ! empty($post['CreateRole']) && ! empty( $_REQUEST['new_role_pp_only'] ) ) || ( ! empty($post['CopyRole']) && ! empty( $_REQUEST['copy_role_pp_only'] ) ) ) {
-				$pp_only = (array) pp_get_option( 'supplemental_role_defs' );
+				$pp_only = (array) capsman_get_pp_option( 'supplemental_role_defs' );
 				$pp_only[]= $newrole;
 				pp_update_option( 'supplemental_role_defs', $pp_only );
 				_cme_pp_default_pattern_role( $newrole );
@@ -210,7 +210,7 @@ class CapsmanHandler
 		}
 		
 		// additional safeguard against removal of read capability
-		if ( isset( $del_caps['read'] ) && in_array( $role_name, $this->cm->core_roles ) ) {
+		if ( isset( $del_caps['read'] ) && _cme_is_read_removal_blocked( $role_name ) ) {
 			unset( $del_caps['read'] );
 		}
 		

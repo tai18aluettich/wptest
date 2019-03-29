@@ -4,7 +4,7 @@ jQuery(document).ready( function($) {
 	$('td.cap-unreg').attr('title',cmeAdmin.typeCapUnregistered);
 	$('a.normal-cap').attr('title',cmeAdmin.switchableCaption);
 	$('span.cap-x').attr('title',cmeAdmin.capNegated);
-	$('table.cme-checklist input[class!="cme-check-all"]').attr('title',cmeAdmin.chkCaption);
+	$('table.cme-checklist input[class!="cme-check-all"]').not(':disabled').attr('title',cmeAdmin.chkCaption);
 	
 	$('table.cme-checklist a.neg-cap').click( function(e) {
 		$(this).closest('td').removeClass('cap-yes').removeClass('cap-no').addClass('cap-neg');

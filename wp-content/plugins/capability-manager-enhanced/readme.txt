@@ -3,7 +3,7 @@ Contributors: publishpress, kevinB, stevejburge, andergmartins
 Tags: roles, capabilities, manager, editor, rights, role, capability, types, taxonomies, network, multisite, default
 Requires at least: 4.1
 Tested up to: 5.1
-Stable tag: 1.6.1
+Stable tag: 1.7
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -11,43 +11,44 @@ A simple way to manage WordPress roles and capabilities.
 
 == Description ==
 
-Capability Manager Enhanced provides a simple way to manage WordPress role definitions (Subscriber, Editor, etc.). View or change the capabilities of any role, add new roles, copy existing roles into new ones, and add new capabilities to existing roles. Now supports capability negation and role networking.
+Control permissions requirements for your post types, and assign those capabilities to any WordPress role.
 
 = Features: =
 
-* Create roles
-* Manage role capabilities
-* Supports negation: set any capability to granted, not granted, or blocked
-* Copy any role to all network sites
-* Mark any role for auto-copy to future network sites
+* Create Roles
+* Manage Role Capabilities
+* Cause type-specific Capabilities to be required and applied for any Post Type
+* Cause distinct edit, delete and assign Capabilities to be required and applied for any Taxonomy
+* Some specialized support for WooCommerce Post Types
+* Supports negation: set any Capability to granted, not granted, or blocked
+* Integration with Press Permit and PublishPress for comprehensive publishing solutions
+* Copy any Role to all network sites
+* Mark any Role for auto-copy to future network sites
 * Backup and restore Roles and Capabilities to revert your last changes.
-* Revert Roles and Capabilities to WordPress defaults. 
- 
+* Revert Roles and Capabilities to WordPress defaults.
+
 Capability Manager Enhanced is professionally developed and supported by the experienced <a href="https://publishpress.com">PublishPress</a> team.
 
 It has been a reliable tool since 2012, when PublishPress team member Kevin Behrens forked it from Jordi Canals' abandoned Capability Manager plugin.
 
-When the WordPress roles and capabilities model is not enough, take advantage of <a href="https://wordpress.org/plugins/press-permit-core">Press Permit</a> plugin integration:
-
-* easily specify which post types require type-specific capability definitions
-* show capabilities which Press Permit adds to the role by supplemental type-specific role assignment
+For additional versatility and convenience, enjoy <a href="https://wordpress.org/plugins/press-permit-core">Press Permit</a> plugin integration. Capability Manager Enhanced will show which capabilities have been added indirectly (as a pre-defined subset) by supplemental Type-Specific Roles (Page Contributor, Media Author, Product Editor, etc.)
 
 Role management can also be delegated:
 
-* Only users with 'manage_capabilities' can manage them. This capability is created at install time and assigned to Administrators.
-* Administrator role cannot be deleted.
-* Non-administrators can only manage roles or users with same or lower capabilities.
+* Only Users with 'manage_capabilities' can manage them. This Capability is created at install time and assigned to Administrators.
+* Administrator Role cannot be deleted.
+* Non-administrators can only manager Roles or Users with same or lower capabilities.
 
 == Screenshots ==
 
-1. Users Menu.
-2. View or Modify capabilities for a role.
-3. Network: copy role to existing or future sites.
-4. Actions on roles.
-5. Permissions Menu (Press Permit integration).
-6. View or Modify capabilities for a role (with Press Permit Pro).
-7. Force type-specific capabilities (Press Permit integration).
-8. Backup/Restore tool.
+1. Users Menu
+2. View or modify Capabilities for any Role
+3. Network: copy Role to existing or future Sites
+4. Role operations
+5. Permissions Menu (Press Permit integration)
+6. Shading of Capabilities granted by supplemental Type-Specific Roles
+7. Enforce Type-Specific Capabilities (Press Permit no longer required)
+8. Backup / Restore tool
 
 == Frequently Asked Questions ==
 
@@ -68,6 +69,14 @@ Keep in mind that this plugin's main purpose is to expose switches (defined capa
 * Feel free to <a href="https://publishpress.com/contact/">submit a help ticket</a> if you can't find an answer in the documentation or forum here. 
 
 == Changelog ==
+
+= 1.7 - 28 Mar 2019 = 
+  * Feature : New right sidebar setting: "Type-Specific Capabilities" for selected post types (without activating Press Permit Core).
+  * Feature : New right sidebar setting: "Taxonomy-Specific Capabilities" ensures a distinct manage capability for selected taxonomies
+  * Feature : New right sidebar setting: "Detailed Taxonomy Capabilities" causes term assign, edit and deletion capabilities to be required and credited separate from management capability
+  * Feature : WooCommerce - Ensure orders can be edited or added based on edit_shop_orders / create_shop_orders capability
+  * Change : Lockout safeguard (preventing read capability removal) is bypassed if role has no WP admin / edit capabilities, or if it has "dashboard_lockout_ok" capability
+  * Compat : Press Permit: new plugin page slugs in Press Permit Core 2.7
 
 = 1.6.1 =
   * Feature : Prevent read capability from being removed from a standard role
