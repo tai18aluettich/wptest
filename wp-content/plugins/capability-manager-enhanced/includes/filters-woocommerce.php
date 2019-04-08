@@ -29,7 +29,7 @@ class CME_WooCommerce {
 				$submenu[$key] = array();
 			}
 			
-			$submenu[$key][5] = array( 0 => sprintf( __( 'All %s' ), $type_obj->labels->name ), 1 => $type_obj->cap->edit_posts, 2 => 'edit.php' );
+			$submenu[$key][5] = array( 0 => sprintf( __( 'All %s' ), $type_obj->labels->name ), 1 => $type_obj->cap->edit_posts, 2 => 'edit.php?post_type=shop_order' );
 			$submenu[$key][10] = array( __('Add New'), 1 => $type_obj->cap->create_posts, 2 => 'post-new.php?post_type=shop_order' );
 		}
 	}

@@ -3,7 +3,7 @@ Contributors: publishpress, kevinB, stevejburge, andergmartins
 Tags: roles, capabilities, manager, editor, rights, role, capability, types, taxonomies, network, multisite, default
 Requires at least: 4.1
 Tested up to: 5.1
-Stable tag: 1.7
+Stable tag: 1.7.2
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -69,6 +69,12 @@ Keep in mind that this plugin's main purpose is to expose switches (defined capa
 * Feel free to <a href="https://publishpress.com/contact/">submit a help ticket</a> if you can't find an answer in the documentation or forum here. 
 
 == Changelog ==
+
+= 1.7.2 - 3 Apr 2019 = 
+  * Compat : WooCommerce integration - Users lacking access to the "Add New Order" submenu could not access Posts, Pages, Products or any other Post Type listing. This occurred if "use create_posts" option enabled and user lacks the create capability for Orders. 
+
+= 1.7.1 - 29 Mar 2019 = 
+  * Fixed : Press Permit integration - cannot load Permissions > Role Capabilities with Press Permit Core < 2.7
 
 = 1.7 - 28 Mar 2019 = 
   * Feature : New right sidebar setting: "Type-Specific Capabilities" for selected post types (without activating Press Permit Core).
