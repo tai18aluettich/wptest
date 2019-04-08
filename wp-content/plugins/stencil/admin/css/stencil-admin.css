@@ -1,0 +1,33 @@
+/**
+ * All of the CSS for your admin-specific functionality should be
+ * included in this file.
+ */
+body.stncl div.media-modal {
+    top: 25px;
+    bottom: 25px;
+}
+body.stncl iframe.stncl-iframe {
+    display: none;
+    border: 0px none transparent;
+    margin: 0px;
+    padding: 0px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+body.stncl.stncl-body-open div.media-frame-toolbar {
+    display: none !important;
+}
+body.stncl.stncl-body-open div.media-frame-content {
+    bottom: 0 !important;
+}
+body.stncl.stncl-body-open div.media-frame-content > div {
+    display: none;
+}
+body.stncl.stncl-body-open iframe.stncl-iframe {
+    display: block;
+}
